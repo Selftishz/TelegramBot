@@ -12,37 +12,39 @@ import javax.sound.midi.MetaMessage;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Hello world!
- *
- */
-public class App extends TelegramLongPollingBot {
+public class Bot extends TelegramLongPollingBot {
+    private static Menu menu = new Menu();
+    private static Long chatId = 0L;
     public static void main( String[] args ) throws TelegramApiException {
         TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
-        botsApi.registerBot(new App());
-        var actions = Map.of(
-                "/start", new RepeatTextAction(
-                        List.of(
-                                "/start - Start a bot")
-                ),
-                "/echo", new EchoAction("/echo"),
-                "/new", new RegAction()
-        );
+        Bot bot = new Bot();
+        botsApi.registerBot(bot);
+        menu.setDefaultCommand(bot);
     }
 
     @Override
     public void onUpdateReceived(Update update) {
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(update.getMessage()
-                                    .getChatId()
-                                    .toString());
         try {
             if (update.hasMessage()) {
+                String messageText = update.getMessage().getText();
+                SendMessage sendMessage = new SendMessage();
+                sendMessage.setChatId(update.getMessage()
+                        .getChatId()
+                        .toString());
+                if (messageText.equals("/start")) {
+                    sendMessage.setReplyMarkup(menu.setDefaultButtons());
+                    chatId = update.getMessage().getChatId();
+                }
+
+                sendMessage.setReplyMarkup(menu.setDefaultButtons());
+
+                sendMessage.setText("/start");
+                execute(sendMessage);
                 String message = update.getMessage().getText();
 
             } else {
-                sendMessage.setText("Please, send a message");
-                execute(sendMessage);
+
+
             }
         } catch (TelegramApiException ex) {
             ex.printStackTrace();
