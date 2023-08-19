@@ -5,6 +5,7 @@ import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
@@ -14,12 +15,14 @@ import java.util.Map;
 
 public class Bot extends TelegramLongPollingBot {
     private static Menu menu = new Menu();
-    private static Long chatId = 0L;
+    private static String chatId = "";
+
+    private SimpleConverter simpleConverter;
     public static void main( String[] args ) throws TelegramApiException {
         TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
         Bot bot = new Bot();
-        botsApi.registerBot(bot);
         menu.setDefaultCommand(bot);
+        botsApi.registerBot(bot);
     }
 
     @Override
@@ -28,27 +31,42 @@ public class Bot extends TelegramLongPollingBot {
             if (update.hasMessage()) {
                 String messageText = update.getMessage().getText();
                 SendMessage sendMessage = new SendMessage();
-                sendMessage.setChatId(update.getMessage()
+                chatId = update.getMessage()
                         .getChatId()
-                        .toString());
+                        .toString();
                 if (messageText.equals("/start")) {
-                    sendMessage.setReplyMarkup(menu.setDefaultButtons());
-                    chatId = update.getMessage().getChatId();
+                    startHandler();
+                } else if ((messageText.equals("/converter")) || (messageText.equals("Simple converter"))) {
+                    simpleConverter = new SimpleConverter();
+                    sendMessage.setText("Converter created");
+                    execute(sendMessage);
+                } else if (messageText.equals("/closetest")) {
+                    createSecondPanel();
+                } else {
+                    sendMessage.setText("Not a command");
+                    execute(sendMessage);
                 }
-
-                sendMessage.setReplyMarkup(menu.setDefaultButtons());
-
-                sendMessage.setText("/start");
-                execute(sendMessage);
-                String message = update.getMessage().getText();
-
-            } else {
-
-
-            }
+            } else {}
         } catch (TelegramApiException ex) {
             ex.printStackTrace();
+
         }
+    }
+
+    public void startHandler() throws TelegramApiException {
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setText("Default buttons");
+        sendMessage.setChatId(chatId);
+        sendMessage.setReplyMarkup(menu.setDefaultButtons());
+        execute(sendMessage);
+    }
+
+    public void createSecondPanel() throws TelegramApiException {
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setText("Refactored buttons");
+        sendMessage.setChatId(chatId);
+        sendMessage.setReplyMarkup(menu.setRefactoredButtons());
+        execute(sendMessage);
     }
 
     @Override

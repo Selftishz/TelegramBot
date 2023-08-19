@@ -1,2 +1,4 @@
-package org.example;public class SimpleConverter {
+package org.example;
+
+public class SimpleConverter {
 }
