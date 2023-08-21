@@ -18,8 +18,8 @@ public class Menu {
     public void setDefaultCommand(Bot bot) {
 
         commandList.add(new BotCommand("/start", "To start a bot"));
-        commandList.add(new BotCommand("/closetest", "Close button menu"));
-        commandList.add(new BotCommand("/converter", "Convert Youtube video to .mp3"));
+        commandList.add(new BotCommand("/barcelona", "Choose Barcelona"));
+        commandList.add(new BotCommand("/realmadrid", "Choose Real Madrid"));
 
 
         try {
@@ -33,26 +33,40 @@ public class Menu {
         List<KeyboardRow> buttonList = new ArrayList<>();
 
         KeyboardRow keyboardRowConverter = new KeyboardRow();
-        keyboardRowConverter.add(new KeyboardButton("Simple converter"));
+        keyboardRowConverter.add(new KeyboardButton("Barcelona"));
         KeyboardRow keyboardRowZipConverter = new KeyboardRow();
-        keyboardRowConverter.add(new KeyboardButton("Zip-converter"));
+        keyboardRowConverter.add(new KeyboardButton("Real Madrid"));
         Collections.addAll(buttonList, keyboardRowConverter, keyboardRowZipConverter);
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup(buttonList, true,
-                true, false, "/converter", false);
+                true, false, "/club", false);
         return replyKeyboardMarkup;
     }
 
-    public ReplyKeyboardMarkup setRefactoredButtons() {
+    public ReplyKeyboardMarkup setBarcelonaButtons() {
 
         List<KeyboardRow> buttonList = new ArrayList<>();
 
         KeyboardRow keyboardRowConverter = new KeyboardRow();
-        keyboardRowConverter.add(new KeyboardButton("HTTP"));
+        keyboardRowConverter.add(new KeyboardButton("Barcelona squad"));
         KeyboardRow keyboardRowZipConverter = new KeyboardRow();
-        keyboardRowConverter.add(new KeyboardButton("ZIPka"));
+        keyboardRowConverter.add(new KeyboardButton("Barcelona matches"));
         Collections.addAll(buttonList, keyboardRowConverter, keyboardRowZipConverter);
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup(buttonList, true,
-                true, false, "/converter", false);
+                true, false, "/barcelonasquad", false);
+        return replyKeyboardMarkup;
+    }
+
+    public ReplyKeyboardMarkup setRealMadridButtons() {
+
+        List<KeyboardRow> buttonList = new ArrayList<>();
+
+        KeyboardRow keyboardRowConverter = new KeyboardRow();
+        keyboardRowConverter.add(new KeyboardButton("Real Madrid squad"));
+        KeyboardRow keyboardRowZipConverter = new KeyboardRow();
+        keyboardRowConverter.add(new KeyboardButton("Real Madrid matches"));
+        Collections.addAll(buttonList, keyboardRowConverter, keyboardRowZipConverter);
+        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup(buttonList, true,
+                true, false, "/realmadridsquad", false);
         return replyKeyboardMarkup;
     }
 }

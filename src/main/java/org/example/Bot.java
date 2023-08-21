@@ -16,11 +16,12 @@ import java.util.Map;
 public class Bot extends TelegramLongPollingBot {
     private static Menu menu = new Menu();
     private static String chatId = "";
+    private Handlers handlers = new Handlers();
 
-    private SimpleConverter simpleConverter;
+    private static Bot bot = new Bot();
     public static void main( String[] args ) throws TelegramApiException {
         TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
-        Bot bot = new Bot();
+
         menu.setDefaultCommand(bot);
         botsApi.registerBot(bot);
     }
@@ -35,13 +36,14 @@ public class Bot extends TelegramLongPollingBot {
                         .getChatId()
                         .toString();
                 if (messageText.equals("/start")) {
-                    startHandler();
-                } else if ((messageText.equals("/converter")) || (messageText.equals("Simple converter"))) {
-                    simpleConverter = new SimpleConverter();
-                    sendMessage.setText("Converter created");
-                    execute(sendMessage);
-                } else if (messageText.equals("/closetest")) {
-                    createSecondPanel();
+                    handlers.setBot(bot);
+                    handlers.setMenu(menu);
+                    handlers.setChatId(chatId);
+                    handlers.startHandler();
+                } else if ((messageText.equals("/barcelonafc")) || (messageText.equals("Barcelona"))) {
+                    handlers.clubBarcelona();
+                } else if ((messageText.equals("/realmadrid")) || (messageText.equals("Real Madrid"))) {
+                    handlers.clubRealMadrid();
                 } else {
                     sendMessage.setText("Not a command");
                     execute(sendMessage);
@@ -53,21 +55,7 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
-    public void startHandler() throws TelegramApiException {
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.setText("Default buttons");
-        sendMessage.setChatId(chatId);
-        sendMessage.setReplyMarkup(menu.setDefaultButtons());
-        execute(sendMessage);
-    }
 
-    public void createSecondPanel() throws TelegramApiException {
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.setText("Refactored buttons");
-        sendMessage.setChatId(chatId);
-        sendMessage.setReplyMarkup(menu.setRefactoredButtons());
-        execute(sendMessage);
-    }
 
     @Override
     public String getBotToken() {
