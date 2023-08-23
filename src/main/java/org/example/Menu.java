@@ -38,7 +38,7 @@ public class Menu {
         keyboardRowConverter.add(new KeyboardButton("Real Madrid"));
         Collections.addAll(buttonList, keyboardRowConverter, keyboardRowZipConverter);
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup(buttonList, true,
-                true, false, "/club", false);
+                false, false, "/club", false);
         return replyKeyboardMarkup;
     }
 
@@ -52,7 +52,7 @@ public class Menu {
         keyboardRowConverter.add(new KeyboardButton("Barcelona matches"));
         Collections.addAll(buttonList, keyboardRowConverter, keyboardRowZipConverter);
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup(buttonList, true,
-                true, false, "/barcelonasquad", false);
+                false, false, "/barcelonasquad", false);
         return replyKeyboardMarkup;
     }
 
@@ -66,7 +66,7 @@ public class Menu {
         keyboardRowConverter.add(new KeyboardButton("Real Madrid matches"));
         Collections.addAll(buttonList, keyboardRowConverter, keyboardRowZipConverter);
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup(buttonList, true,
-                true, false, "/realmadridsquad", false);
+                false, false, "/realmadridsquad", false);
         return replyKeyboardMarkup;
     }
 }

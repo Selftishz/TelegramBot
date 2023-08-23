@@ -10,6 +10,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 import javax.sound.midi.MetaMessage;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -40,10 +41,14 @@ public class Bot extends TelegramLongPollingBot {
                     handlers.setMenu(menu);
                     handlers.setChatId(chatId);
                     handlers.startHandler();
-                } else if ((messageText.equals("/barcelonafc")) || (messageText.equals("Barcelona"))) {
+                } else if ((messageText.equals("/barcelona")) || (messageText.equals("Barcelona"))) {
                     handlers.clubBarcelona();
                 } else if ((messageText.equals("/realmadrid")) || (messageText.equals("Real Madrid"))) {
                     handlers.clubRealMadrid();
+                } else if (messageText.equals("Barcelona squad")) {
+
+                } else if (messageText.equals("Barcelona matches")) {
+                    handlers.barcelonaSquad();
                 } else {
                     sendMessage.setText("Not a command");
                     execute(sendMessage);
@@ -52,6 +57,8 @@ public class Bot extends TelegramLongPollingBot {
         } catch (TelegramApiException ex) {
             ex.printStackTrace();
 
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
