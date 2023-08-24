@@ -24,19 +24,11 @@ public class Handlers {
         bot.execute(sendMessage);
     }
 
-    public void clubBarcelona() throws TelegramApiException {
+    public void clubHandler(String squadText, String upcomingMatchesText) throws TelegramApiException {
         SendMessage sendMessage = new SendMessage();
-        sendMessage.setText("Barcelona buttons");
+        sendMessage.setText("club buttons:");
         sendMessage.setChatId(chatId);
-        sendMessage.setReplyMarkup(menu.setBarcelonaButtons());
-        bot.execute(sendMessage);
-    }
-
-    public void clubRealMadrid() throws TelegramApiException {
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.setText("Real Madrid buttons");
-        sendMessage.setChatId(chatId);
-        sendMessage.setReplyMarkup(menu.setRealMadridButtons());
+        sendMessage.setReplyMarkup(menu.setClubButtons(squadText, upcomingMatchesText));
         bot.execute(sendMessage);
     }
 
@@ -52,13 +44,12 @@ public class Handlers {
         this.menu = menu;
     }
 
-    public void barcelonaSquad() throws IOException, TelegramApiException {
+    public void getMatches(String url) throws IOException, TelegramApiException {
         SendMessage sendMessage = new SendMessage();
-        Document page = getPage();
+        Document page = getPage(url);
         Element table = page.selectFirst("table[class=stat-table]").selectFirst("tbody");
         Elements values = table.select("tr");
         String filled = StringUtils.repeat(" ", 200);
-        StringBuilder title = new StringBuilder(filled);
         int count = 0;
         String result = "";
         for (Element element : values) {
@@ -88,8 +79,30 @@ public class Handlers {
         }
     }
 
-    private Document getPage() throws IOException {
-        String url = "https://www.sports.ru/barcelona/calendar/";
+    public void getSquad(String url) throws IOException, TelegramApiException {
+        SendMessage sendMessage = new SendMessage();
+        Document page = getPage(url);
+        Element table = page.selectFirst("table[class=stat-table sortable-table]").selectFirst("tbody");
+        Elements values = table.select("tr");
+        String filled = StringUtils.repeat(" ", 200);
+        String result = "";
+        for (Element element : values) {
+            String number = element.select("td").first().text();
+            String player = element.selectFirst("td[class=name-td alLeft bordR]").text();
+            String playerAge = element.selectFirst("td[class=name-td alLeft bordR]").text();
+            StringBuilder line = new StringBuilder(filled);
+            line.insert(0, number);
+            line.insert(5, player);
+
+            String text = StringUtils.strip(line.toString(), " ");
+            result = result + text + "\n";
+        }
+        sendMessage.setChatId(chatId);
+        sendMessage.setText(result);
+        bot.execute(sendMessage);
+    }
+
+    private Document getPage(String url) throws IOException {
         Document page = Jsoup.parse(new URL(url), 3000);
         return page;
     }
