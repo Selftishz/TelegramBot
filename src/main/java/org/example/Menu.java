@@ -19,7 +19,23 @@ public class Menu {
 
         commandList.add(new BotCommand("/start", "To start a bot"));
         commandList.add(new BotCommand("/barcelona", "Choose Barcelona"));
-        commandList.add(new BotCommand("/realmadrid", "Choose Real Madrid"));
+        commandList.add(new BotCommand("/atleticomadrid", "Choose Atletico Madrid"));
+        commandList.add(new BotCommand("/sevilla", "Choose Sevilla"));
+        commandList.add(new BotCommand("/villarreal", "Choose Villarreal"));
+        commandList.add(new BotCommand("/betis", "Choose Betis"));
+        commandList.add(new BotCommand("/realsociedad", "Choose Real Sociedad"));
+        commandList.add(new BotCommand("/athletic", "Choose Athletic"));
+        commandList.add(new BotCommand("/rayovallecano", "Choose Rayo Vallecano"));
+        commandList.add(new BotCommand("/valencia", "Choose Valencia"));
+        commandList.add(new BotCommand("/girona", "Choose Girona"));
+        commandList.add(new BotCommand("/alaves", "Choose Alaves"));
+        commandList.add(new BotCommand("/osasuna", "Choose Osasuna"));
+        commandList.add(new BotCommand("/cadiz", "Choose Cadiz"));
+        commandList.add(new BotCommand("/laspalmas", "Choose Las Palmas"));
+        commandList.add(new BotCommand("/mallorca", "Choose Mallorca"));
+        commandList.add(new BotCommand("/celta", "Choose Celta"));
+        commandList.add(new BotCommand("/almeria", "Choose Almeria"));
+        commandList.add(new BotCommand("/granada", "Choose Granada"));
 
 
         try {
